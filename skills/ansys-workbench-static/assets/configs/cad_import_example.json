@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "task_name": "cad_intake",
+  "display_name": "CAD Inspection - Awaiting User Inputs",
+  "cad_path": "C:\\cases\\new-part\\part.step",
+  "project_path": "C:\\cases\\new-part\\part.wbpj",
+  "project_mode": "create",
+  "overwrite_project": false,
+  "session": {
+    "startup_timeout_seconds": 180,
+    "solve_timeout_seconds": 7200,
+    "save_timeout_seconds": 300,
+    "open_visible_after": false
+  }
+}

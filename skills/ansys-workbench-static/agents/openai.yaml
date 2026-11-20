@@ -1,0 +1,4 @@
+interface:
+  display_name: "ANSYS Workbench 静力仿真"
+  short_description: "导入 CAD、确认真实工况并完成 ANSYS 19.2 静力分析与交付"
+  default_prompt: "使用 $ansys-workbench-static 导入我的 CAD，检查几何并收集仿真条件，然后执行适用的静力分析并保存结果。"

@@ -1,0 +1,33 @@
+{
+  "source_repository": "https://github.com/Cai-aa/CAE-Agent-Hub",
+  "source_subdirectory": "MCP/Ansys/Workbench MCP/workbench_plugin",
+  "upstream_commit": null,
+  "source_kind": "Local source snapshot, not a verified git checkout",
+  "collected_on": "2026-11-20",
+  "local_compatibility_fixes": [
+    "Logging failures do not interrupt queue processing",
+    "NUL removal uses chr(0)"
+  ],
+  "packaging_changes": [
+    "Text line endings normalized to LF; original source byte hashes retained below"
+  ],
+  "license": "MIT; Copyright (c) 2026 Thompson Labs",
+  "files": {
+    "WorkbenchMCP.xml": {
+      "local_source_sha256": "b72d8b22b47d5074291207e521690052a3fd6d3c237670a3a5f2e34cd162426e",
+      "packaged_sha256": "b72d8b22b47d5074291207e521690052a3fd6d3c237670a3a5f2e34cd162426e"
+    },
+    "main.py": {
+      "local_source_sha256": "f1fb760705581b1946060d4b45e3270091fb099d89719e93114c46e1a2cdc4d1",
+      "packaged_sha256": "f1fb760705581b1946060d4b45e3270091fb099d89719e93114c46e1a2cdc4d1"
+    },
+    "mechanical_queue_processor.py": {
+      "local_source_sha256": "10180f0b50d500cb409ae595834edddff72ec512410889183941608bdb38b152",
+      "packaged_sha256": "10180f0b50d500cb409ae595834edddff72ec512410889183941608bdb38b152"
+    },
+    "mechanical_socket_timer_v7.py": {
+      "local_source_sha256": "f9c239b6ff6777e33fa51ab81ab2006696792bc084f94787aac75ed6275e2433",
+      "packaged_sha256": "f9c239b6ff6777e33fa51ab81ab2006696792bc084f94787aac75ed6275e2433"
+    }
+  }
+}

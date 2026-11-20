@@ -1,0 +1,17 @@
+# Merge only this section into your existing Codex configuration.
+# Replace the generic paths; do not publish the resulting private config.
+[mcp_servers.ansys-workbench]
+command = 'C:\cae-tools\WorkbenchMCP\.venv\Scripts\python.exe'
+args = ['C:\cae-tools\WorkbenchMCP\server.py']
+cwd = 'C:\cae-tools\WorkbenchMCP'
+
+[mcp_servers.ansys-workbench.env]
+ANSYS_ROOT = 'C:\Program Files\ANSYS Inc\v192'
+ANSYS_WB_EXE = 'C:\Program Files\ANSYS Inc\v192\Framework\bin\Win64\RunWB2.exe'
+WORKBENCH_MCP_ROOT = 'C:\cae-tools\WorkbenchMCP'
+WORKBENCH_MCP_QUEUE_ROOT = 'C:\cae-runs\interactive-queue'
+WORKBENCH_MCP_HOST = '127.0.0.1'
+WORKBENCH_MCP_PORT = '9885'
+WORKBENCH_MCP_AUTO_START_SOCKET = '0'
+WORKBENCH_MCP_AUTO_START_QUEUE = '1'
+WORKBENCH_MCP_QUEUE_INTERVAL_MS = '1500'

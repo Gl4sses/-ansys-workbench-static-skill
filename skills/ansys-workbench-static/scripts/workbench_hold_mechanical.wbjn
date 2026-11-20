@@ -1,0 +1,63 @@
+# encoding: utf-8
+SetScriptVersion(Version="19.2.118")
+
+import codecs
+import json
+import os
+import time
+import traceback
+
+
+config_path = os.environ.get("ANSYS_FEA_RUNTIME_CONFIG")
+if not config_path:
+    raise RuntimeError("ANSYS_FEA_RUNTIME_CONFIG is not set")
+with codecs.open(config_path, "r", "utf-8") as config_stream:
+    config = json.loads(config_stream.read())
+paths = config["runtime_paths"]
+status_path = paths["hold_status"]
+
+
+def status(text):
+    with open(status_path, "a") as stream:
+        stream.write(str(text) + "\n")
+
+
+model_container = None
+try:
+    if os.path.exists(status_path):
+        os.remove(status_path)
+    for flag in (paths["done_flag"], paths["abort_flag"]):
+        if os.path.exists(flag):
+            os.remove(flag)
+    status("1/5 opening project")
+    Open(FilePath=paths["project"])
+    system = GetSystem(Name="SYS")
+    model_container = system.GetContainer(ComponentName="Model")
+    status("2/5 opening Mechanical")
+    model_container.Edit()
+    status("3/5 Mechanical opened; waiting for run-specific flag")
+    # Only the controller's terminal decision ends this owned session. A long mesh
+    # or solve can outlive its polling budget; a wall-clock deadline must not close it.
+    while True:
+        if os.path.exists(paths["done_flag"]) or os.path.exists(paths["abort_flag"]):
+            break
+        time.sleep(1)
+    if os.path.exists(paths["done_flag"]):
+        status("4/5 success flag received; saving")
+        model_container.Exit()
+        Save(Overwrite=True)
+        status("5/5 saved and exited")
+    elif os.path.exists(paths["abort_flag"]):
+        status("4/5 abort flag received; exiting without save")
+        model_container.Exit()
+        status("5/5 aborted and exited")
+except Exception:
+    status("ERROR")
+    status(traceback.format_exc())
+    try:
+        if model_container is not None:
+            model_container.Exit()
+    except Exception:
+        pass
+    raise
+

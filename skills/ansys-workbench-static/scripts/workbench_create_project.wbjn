@@ -1,0 +1,44 @@
+# encoding: utf-8
+SetScriptVersion(Version="19.2.118")
+
+import codecs
+import json
+import os
+import traceback
+
+
+config_path = os.environ.get("ANSYS_FEA_RUNTIME_CONFIG")
+if not config_path:
+    raise RuntimeError("ANSYS_FEA_RUNTIME_CONFIG is not set")
+with codecs.open(config_path, "r", "utf-8") as config_stream:
+    config = json.loads(config_stream.read())
+paths = config["runtime_paths"]
+status_path = paths["create_status"]
+
+
+def status(text):
+    with open(status_path, "a") as stream:
+        stream.write(str(text) + "\n")
+
+
+try:
+    if os.path.exists(status_path):
+        os.remove(status_path)
+    status("1/5 paths cad_exists=%s" % os.path.exists(paths["cad"]))
+    template = GetTemplate(TemplateName="Static Structural", Solver="ANSYS")
+    status("2/5 template")
+    system = template.CreateSystem()
+    system.DisplayText = config.get("display_name", config["task_name"])
+    status("3/5 system")
+    geometry = system.GetContainer(ComponentName="Geometry")
+    geometry.SetFile(FilePath=paths["cad"])
+    model = system.GetContainer(ComponentName="Model")
+    model.Refresh()
+    status("4/5 geometry refreshed")
+    Save(FilePath=paths["project"], Overwrite=True)
+    status("5/5 saved project_exists=%s" % os.path.exists(paths["project"]))
+except Exception:
+    status("ERROR")
+    status(traceback.format_exc())
+    raise
+
